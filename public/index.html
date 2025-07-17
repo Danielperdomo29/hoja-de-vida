@@ -10,9 +10,17 @@
   <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
+  <canvas id="matrix-canvas"></canvas>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
-      <img src="/Imagenes/FotoDePerfil.png" alt="Daniel Perdomo" class="rounded-circle border border-3 border-warning me-3" style="width: 45px; height: 45px; object-fit: cover;">
+      <img 
+        src="/Imagenes/FotoDePerfil.png" 
+        alt="Daniel Perdomo" 
+        class="rounded-circle border border-3 border-warning me-3 perfil-img" 
+        style="width: 45px; height: 45px; object-fit: cover; cursor: pointer;" 
+        data-bs-toggle="modal" 
+        data-bs-target="#modalFoto"
+      >
       <a class="navbar-brand" href="#">Daniel Enrique Perdomo Carvajal</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -28,7 +36,7 @@
     </div>
   </nav>
 
-  <header class="bg-gradient text-white text-center py-5 mt-5" data-aos="fade-down">
+  <header class="bg-gradient text-white text-center py-1 mt-5" data-aos="fade-down">
   <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4">
     <div class=\"text-center text-md-start\">
       <h1 class="display-5 text-white">Daniel Enrique Perdomo Carvajal</h1>
@@ -116,6 +124,268 @@
     </div>
   </section>
 
+  <section id="proyectos" class="container py-5" data-aos="fade-up">
+  <h2 class="text-center"><i class="fas fa-laptop-code"></i> Proyectos Webs</h2>
+  <div class="row g-4 mt-4">
+
+    <!-- Proyecto 1 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://superb-cobbler-c5b2fb.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="https://d33wubrfki0l68.cloudfront.net/684716c345155d34c2a2b46a/screenshot_2025-06-09-17-15-50-0000.webp" class="card-img-top img-fluid" alt="Proyecto 1">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Carrito de compras</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto 2 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://ephemeral-nasturtium-086c92.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="https://d33wubrfki0l68.cloudfront.net/67de2157b62b6d6cad209afb/screenshot_2025-03-22-02-32-57-0000.webp" class="card-img-top img-fluid" alt="Proyecto 2">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">CRM Administrativo</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto 3 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://astounding-pixie-b9b9e9.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="https://d33wubrfki0l68.cloudfront.net/67d3236fa1bbab29764727fb/screenshot_2025-03-13-18-26-59-0000.webp" class="card-img-top img-fluid" alt="Proyecto 3">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Buscador de autos</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto 4 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://relaxed-moonbeam-ebdc55.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="https://d33wubrfki0l68.cloudfront.net/67cc657b8f50d0908cb07f1c/screenshot_2025-03-08-15-42-53-0000.webp" class="card-img-top img-fluid" alt="Proyecto 4">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Cotizador de seguros</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto 5 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://stupendous-tulumba-f5a90e.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="https://d33wubrfki0l68.cloudfront.net/678291d8860fb6ebede3a299/screenshot_2025-01-11-15-44-26-0000.webp" class="card-img-top img-fluid" alt="Proyecto 5">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Administrador de pacientes</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto por defecto -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://nimble-bubblegum-41dc5a.netlify.app" target="_blank" rel="noopener noreferrer">
+          <img src="./Imagenes/proyecto_GastosQuincenales.webp" class="card-img-top img-fluid" alt="Proyecto por defecto">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Proyecto en caluladora de Gastos Quincenales</h5>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="disenos" class="container py-5" data-aos="fade-up">
+  <h2 class="text-center"><i class="fas fa-palette"></i> Diseños y Catálogos</h2>
+  <div class="row g-4 mt-4">
+
+    <!-- Diseño 1 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://drive.google.com/file/d/1marWO-xww19-wgXyQ6Pazv7RVhzAjs6F/view?usp=drive_link" target="_blank" rel="noopener noreferrer">
+          <img src="./Imagenes/CatalogoDeproductos.webp" class="card-img-top img-fluid" alt="Catálogo Diseño Ecológico">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Catálogo De prodcutos</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diseño 2 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="#" target="_blank" rel="noopener noreferrer">
+          <img src="./Imagenes/BannerPublicitario.webp" class="card-img-top img-fluid" alt="Catálogo Publicidad">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Publicidad Visual</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diseño 3 -->
+    <div class="col-md-4">
+      <div class="card h-100 shadow-lg border-0">
+        <a href="https://drive.google.com/file/d/1hqOCeJDDWxMz6xzmcpoGJnYtaTKICO62/view?usp=sharing " target="_blank" rel="noopener noreferrer">
+          <img src="./Imagenes/Diseño_En_3D.webp" class="card-img-top img-fluid" alt="Diseño Creativo 3">
+        </a>
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Diseño Creativo en 3D</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="videos" class="container py-5" data-aos="fade-up">
+  <h2 class="text-center text-warning mb-4"><i class="fas fa-video"></i> Proyectos en Video</h2>
+  <div class="row g-4">
+
+    <!-- Video 1 -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg h-100">
+        <img src="./Imagenes/ControladorDePosicionMotorDC.webp" class="card-img-top img-fluid rounded-top" alt="Video 1">
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Diseño de controlador PID para motor DC</h5>
+          <a href="https://drive.google.com/file/d/1zu9-xlcSTSrWlXKQ43voyvTfJDsAchx2/view" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning">
+            <i class="fas fa-external-link-alt"></i> Ver en Google Drive
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video 2 -->
+    <div class="col-md-4">
+      <div class="card border-0 shadow-lg h-100">
+        <img src="./Imagenes/SistemaDealarmaTemprana.webp" class="card-img-top img-fluid rounded-top" alt="Video 2">
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Sistema de alerta temprana</h5>
+          <a href="https://drive.google.com/file/d/1zuDyi0XSZDAe2_AxhgKLGV3N8QQ_jGJC/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning">
+            <i class="fas fa-external-link-alt"></i> Ver en Google Drive
+          </a>
+        </div>
+      </div>
+    </div>
+
+        <div class="col-md-4">
+      <div class="card border-0 shadow-lg h-100">
+        <img src="./Imagenes/Trasmisor-de-baja-potencia.webp" class="card-img-top img-fluid rounded-top" alt="Video 2">
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Trasmisor FM de baja potencia</h5>
+          <a href="https://drive.google.com/file/d/1pcy2S0qMcMrT-z2hl5gMqqW9UNE9xocu/view" target="_blank" rel="noopener noreferrer" class="btn btn-outline-warning">
+            <i class="fas fa-external-link-alt"></i> Ver en Google Drive
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="informes" class="container py-5" data-aos="fade-up">
+  <h2 class="text-center text-warning"><i class="fas fa-file-alt"></i> informes</h2>
+  <div class="row g-4 mt-4 justify-content-center">
+
+    <!-- Informe Técnico -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow-lg border-0 h-100 animate-hover">
+        <img src="./Imagenes/ProyectoDeNivel.webp" class="card-img-top rounded-top" alt="Miniatura Informe Técnico">
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title">Informe Técnico de proyecto de nivel</h5>
+          <a href="./PROYECTO INSTRUMENTACION.pdf" class="btn btn-outline-light me-2" download>
+            <i class="fas fa-download"></i> Descargar
+          </a>
+          <a href="./PROYECTO INSTRUMENTACION.pdf" class="btn btn-outline-warning mt-2" target="_blank">
+            <i class="fas fa-eye"></i> Ver Online
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Proyecto Redes - Banco de pruebas -->
+    <div class="col-md-5 col-lg-4">
+      <div class="card shadow-lg border-0 h-100 animate-hover">
+        <img src="./Imagenes/Taller.webp" class="card-img-top rounded-top" alt="Miniatura Proyecto de Redes">
+        <div class="card-body bg-dark text-light text-center">
+          <h5 class="card-title"> infraestructura de red bancaria</h5>
+          <a href="./TallerDeRedes.pdf" class="btn btn-outline-light me-2" download>
+            <i class="fas fa-download"></i> Descargar
+          </a>
+          <a href="./TallerDeRedes.pdf" class="btn btn-outline-warning mt-2" target="_blank">
+            <i class="fas fa-eye"></i> Ver Online
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+<section id="servicios" class="container py-5" data-aos="zoom-in-up">
+  <h2 class="text-center text-warning mb-5"><i class="fas fa-tools"></i> Servicios Profesionales</h2>
+  <div class="row g-4 justify-content-center">
+
+    <!-- Servicio 1: Mantenimiento y Asesoría -->
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg h-100 border-0 animate-hover">
+        <img src="./Imagenes/Mantenimientos.webp" class="card-img-top rounded-top" alt="Mantenimiento Electrónico">
+        <div class="card-body bg-dark text-light">
+          <h5 class="card-title text-center">Mantenimiento Industrial & Asesoría</h5>
+          <p class="card-text text-center">
+            Diagnóstico y reparación de equipos electrónicos industriales, asesoría en ensamblajes de alto rendimiento, mejora de procesos y soporte técnico especializado para empresas tecnológicas e industriales.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Servicio 2: Diseño Hardware Personalizado -->
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-lg h-100 border-0 animate-hover">
+        <img src="./Imagenes/Disen.avif" class="card-img-top rounded-top" alt="Diseño de Hardware">
+        <div class="card-body bg-dark text-light">
+          <h5 class="card-title text-center">Diseño de Hardware Personalizado</h5>
+          <p class="card-text text-center">
+            Desarrollo de soluciones electrónicas a medida: diseño de PCBs, integración de sensores, microcontroladores, interfaces industriales, con enfoque en eficiencia, durabilidad y escalabilidad.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón para descargar hoja de vida -->
+  <div class="text-center mt-5">
+    <a href="./CV_Daniel_Enrique_Perdomo_Carvajal.pdf" class="btn btn-warning btn-lg shadow-lg px-5 rounded-pill" download>
+      <i class="fas fa-file-download"></i> Descargar Hoja de Vida
+    </a>
+  </div>
+</section>
+
+<section id="comentarios" style="padding: 2rem; background-color: #f2f2f2;">
+  <h2>💬 Comentarios</h2>
+
+  <div id="comentarios-container"></div>
+
+  <div id="formulario-comentario" style="margin-top: 2rem;">
+    <textarea id="comentario" placeholder="Escribe tu comentario aquí..." rows="4" style="width: 100%;"></textarea>
+    <button id="btn-enviar-comentario">Enviar comentario</button>
+  </div>
+
+  <div id="auth-section" style="margin-top: 1rem;">
+    <button id="btn-login-google">Iniciar sesión con Google</button>
+    <button id="btn-logout" style="display:none;">Cerrar sesión</button>
+    <p id="usuario-logueado" style="font-weight: bold;"></p>
+  </div>
+</section>
+
+
+
+
   <section id="contacto" class="bg-dark text-white py-5" data-aos="fade-up-right">
     <div class="container">
       <h2><i class="fas fa-envelope"></i> Contacto</h2>
@@ -150,10 +420,89 @@
     </div>
   </section>
 
-  
+  <!-- Modal para ampliar imagen -->
+  <div class="modal fade" id="modalFoto" tabindex="-1" aria-labelledby="modalFotoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-dark text-white">
+        <div class="modal-header border-0">
+          <h5 class="modal-title" id="modalFotoLabel">Daniel Enrique Perdomo</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body text-center">
+          <img src="/Imagenes/FotoDePerfil.png" alt="Foto ampliada" class="img-fluid rounded-4 shadow">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+  let usuarioActual = null;
 
+  async function obtenerComentarios() {
+    const res = await fetch("/comentarios");
+    const comentarios = await res.json();
+    const contenedor = document.getElementById("comentarios-container");
+    contenedor.innerHTML = comentarios.map(c => `
+      <div style="margin: 1rem 0; padding: 1rem; background: white; border-radius: 8px;">
+        <strong>${c.usuario?.nombre || "Anónimo"}:</strong><br>
+        <p>${c.contenido}</p>
+        <small>${new Date(c.fecha).toLocaleString()}</small>
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("btn-enviar-comentario").addEventListener("click", async () => {
+    const contenido = document.getElementById("comentario").value.trim();
+    if (!contenido || !usuarioActual) return alert("Debes iniciar sesión y escribir algo.");
+
+    const res = await fetch("/comentarios", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contenido,
+        usuario: usuarioActual
+      })
+    });
+
+    const data = await res.json();
+    alert(data.mensaje);
+    document.getElementById("comentario").value = "";
+    obtenerComentarios();
+  });
+
+  document.getElementById("btn-login-google").addEventListener("click", () => {
+    window.location.href = "/auth/google";
+  });
+
+  document.getElementById("btn-logout").addEventListener("click", () => {
+    window.location.href = "/logout";
+  });
+
+  async function verificarSesion() {
+    try {
+      const res = await fetch("/api/usuario", { credentials: "include" });
+      if (!res.ok) throw new Error();
+
+      const usuario = await res.json();
+      usuarioActual = usuario;
+
+      document.getElementById("usuario-logueado").textContent = "Hola, " + usuario.nombre;
+      document.getElementById("btn-login-google").style.display = "none";
+      document.getElementById("btn-logout").style.display = "inline";
+    } catch {
+      usuarioActual = null;
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", () => {
+    verificarSesion();
+    obtenerComentarios();
+  });
+</script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="app.js"></script>
+  <footer class="bg-dark text-center text-white py-3 mt-4">
+  <p class="mb-0">© 2025 Daniel Enrique Perdomo Carvajal · Todos los derechos reservados</p>
+</footer>
 </body>
 </html>
