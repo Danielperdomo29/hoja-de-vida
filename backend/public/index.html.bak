@@ -17,9 +17,10 @@
         src="/Imagenes/FotoDePerfil.png" 
         alt="Daniel Perdomo" 
         class="rounded-circle border border-3 border-warning me-3 perfil-img" 
+        style="width: 45px; height: 45px; object-fit: cover; cursor: pointer;" 
         data-bs-toggle="modal" 
         data-bs-target="#modalFoto"
-      />
+      >
       <a class="navbar-brand" href="https://www.linkedin.com/in/daniel-enrique-perdomo-carvajal-3a472a187/" target="_blank">Perfil Profesional</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -58,45 +59,22 @@
         <div class="col-md-6">
           <div class="card shadow-lg rounded-4 p-4 h-100">
             <h5>Coasquímicos S.A.S (2023–2025)</h5>
-            <h6>Ingeniero de Automatización y Desarrollo | 2023 – 2025</h6>
             <ul>
-              <li>Lideré la automatización de un agitador industrial, diseñando e implementando un sistema de control basado en microcontroladores que evitó la necesidad de PLCs costosos, mejorando la eficiencia de producción.</li>
-              <li>Diseñé y desarrollé una plataforma web para ventas que resultó en un incremento del 65% en los ingresos.</li>
-              <li>Implementé algoritmos de análisis de datos para la toma de decisiones basada en el comportamiento de los usuarios.</li>
-              <li>Gestioné el mantenimiento preventivo y correctivo de la infraestructura tecnológica y equipos industriales, minimizando tiempos de inactividad.</li>
-              <li>Mantenimiento preventivo y correctivo de equipos electrónicos industriales.</li>
+              <li>Automatización de agitador industrial mejorando la eficiencia de producción.</li>
+              <li>Diseño de web para ventas, incrementando ingresos en un 65%.</li>
+              <li>Algoritmos de decisión basados en comportamiento de usuarios.</li>
+              <li>Sistema de control con microcontroladores (sin PLCs costosos).</li>
+              <li>Mantenimiento preventivo y correctivo de equipos industriales.</li>
             </ul>
           </div>
         </div>
         <div class="col-md-6">
           <div class="card shadow-lg rounded-4 p-4 h-100">
-            <h5>Freelancer – CRM Licitaciones KJC proyectos</h5>
-            <h6>Desarrollador Full-Stack | 2024 </h6>
+            <h5>Freelancer – CRM Licitaciones (2022–2023)</h5>
             <ul>
-              <li>Diseñé y desarrollé un CRM web personalizado para la gestión de licitaciones, con filtros avanzados por entidad contratante.</li>
-              <li>Automatización integral de documentación (hojas de vida, certificados, cronogramas), aumentando la eficiencia operativa.</li>
-              <li>Implementación de un sistema de seguimiento y alertas inteligentes para convocatorias.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow-lg rounded-4 p-4 h-100">
-            <h5>Grupo Empresarial Recicla S.A.S.</h5>
-            <h6>Ingeniero de Proyectos | Modalidad Híbrida | Oct 2024 - Dic 2024</h6>
-            <ul>
-              <li>Diseñé e implementé un Sistema de Información Geográfica (SIG) utilizando QGIS para la optimización de rutas de recolección, cumpliendo con la normativa SUI.</li>
-              <li>Gestioné y di soporte a la infraestructura web de la empresa</li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card shadow-lg rounded-4 p-4 h-100">
-            <h5>EcoSmile S.A.S. – Ingeniería Sostenible</h5>
-            <h6>Desarrollador junior & Consultor TI | Jornada Parcial | May 2019 - Ene 2025</h6>
-            <ul>
-              <li>Lideré el diseño, desarrollo y mantenimiento de aplicaciones web responsivas y de alto rendimiento.</li>
-              <li>Asesoré técnicamente en el dimensionamiento de sistemas de energía renovable y desarrollé modelos 3D para proyectos de sostenibilidad.</li>
-              <li>Gestioné la infraestructura tecnológica, providing soporte técnico avanzado y resolución proactiva de incidentes.</li>
+              <li>CRM web personalizado con filtrado por entidad contratante.</li>
+              <li>Automatización documental: hojas de vida, certificados, cronogramas.</li>
+              <li>Seguimiento de convocatorias y alertas inteligentes.</li>
             </ul>
           </div>
         </div>
@@ -394,14 +372,14 @@
     <h2 class="text-center mb-4"><i class="fas fa-comments"></i> Comentarios</h2>
     
     <!-- Contenedor de comentarios -->
-    <div id="comentarios-container" class="mb-4">
+    <div id="comentarios-container" class="mb-4" style="max-height: 500px; overflow-y: auto;">
       <!-- Los comentarios se cargarán aquí dinámicamente -->
     </div>
     
     <!-- Formulario de comentarios -->
     <div id="formulario-comentario" class="mb-4">
       <div class="form-floating mb-3">
-        <textarea class="form-control" id="comentario-texto" placeholder="Escribe tu comentario..."></textarea>
+        <textarea class="form-control" id="comentario-texto" placeholder="Escribe tu comentario..." style="height: 100px"></textarea>
         <label for="comentario-texto">Tu comentario</label>
       </div>
       <button id="btn-enviar-comentario" class="btn btn-warning w-100">
@@ -414,12 +392,12 @@
       <button id="btn-login-google" class="btn btn-outline-primary">
         <i class="fab fa-google"></i> Iniciar sesión con Google
       </button>
-      <button id="btn-logout" class="btn btn-outline-danger d-none">
+      <button id="btn-logout" class="btn btn-outline-danger" style="display: none;">
         <i class="fas fa-sign-out-alt"></i> Cerrar sesión
       </button>
-      <div id="usuario-info" class="mt-3 d-none">
-      <img id="usuario-avatar" src="" alt="Avatar" class="rounded-circle me-2" width="40">
-      <span id="usuario-nombre"></span>
+      <div id="usuario-info" class="mt-3" style="display: none;">
+        <img id="usuario-avatar" src="" alt="Avatar" class="rounded-circle me-2" width="40">
+        <span id="usuario-nombre"></span>
       </div>
     </div>
   </div>
