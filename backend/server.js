@@ -7,7 +7,9 @@ const cors = require("cors");
 const path = require("path");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
-const MongoStore = require("connect-mongo"); // npm i connect-mongo
+const MongoStore = require("connect-mongo");
+const https = require("https");
+const fs = require("fs");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,7 +21,7 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
-      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"], // evita 'unsafe-inline' si mueves inline styles
+      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
       imgSrc: ["'self'", "data:", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://d33wubrfki0l68.cloudfront.net", "https://lh3.googleusercontent.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
       connectSrc: ["'self'", "https://accounts.google.com", "https://www.googleapis.com"],
@@ -38,7 +40,7 @@ app.use("/api/", apiLimiter);
 
 // === CORS ===
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:3000",
+  origin: process.env.FRONTEND_URL || "https://localhost:3000",
   credentials: true
 }));
 
@@ -46,17 +48,20 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// === Session (usar MongoStore en producción) ===
-const sessionStore = MongoStore.create({ mongoUrl: process.env.MONGO_URI, collectionName: 'sessions' });
+// === Session ===
+const sessionStore = MongoStore.create({
+  mongoUrl: process.env.MONGO_URI,
+  collectionName: "sessions"
+});
 app.use(session({
   secret: process.env.SESSION_SECRET || "supersecreto",
   resave: false,
   saveUninitialized: false,
   store: sessionStore,
   cookie: {
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production", // en dev usamos https local, no importa
     httpOnly: true,
-    sameSite: 'lax',
+    sameSite: "lax",
     maxAge: 24 * 60 * 60 * 1000
   }
 }));
@@ -81,23 +86,31 @@ app.use("/api/auth", authRoutes);
 app.use("/api/comentarios", comentariosRoutes);
 app.use("/api/contacto", contactoRoutes);
 
-// Alias para compatibilidad con frontend estático que use /enviar-correo
+// Alias para compatibilidad con frontend estático
 app.post("/enviar-correo", contactoController.enviarMensaje);
 
 // === Estáticos ===
 app.use(express.static(path.join(__dirname, "public")));
 
-// Catch-all GET -> index.html (no afecta POST)
+// Catch-all GET -> index.html
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
-// Manejo de errores global (al final)
+// === Manejo de errores global ===
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(err.status || 500).json({ ok: false, error: err.message || "Server error" });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+// === Servidor con HTTPS en desarrollo ===
+
+const options = {
+  key: fs.readFileSync(path.join(__dirname, "certs", "key.pem")),
+  cert: fs.readFileSync(path.join(__dirname, "certs", "cert.pem")),
+};
+
+https.createServer(options, app).listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en https://localhost:${PORT}`);
 });
+

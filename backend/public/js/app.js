@@ -1,7 +1,18 @@
+const API_URL = "https://localhost:3000";
 // Inicializa animaciones AOS
 AOS.init();
+document.addEventListener('DOMContentLoaded', function() {
+  // Elementos del DOM
+  const btnLogin = document.getElementById('btn-login-google');
+  const btnLogout = document.getElementById('btn-logout');
+  const btnEnviarComentario = document.getElementById('btn-enviar-comentario');
+  const comentariosContainer = document.getElementById('comentarios-container');
+  const usuarioInfo = document.getElementById('usuario-info');
+  const usuarioAvatar = document.getElementById('usuario-avatar');
+  const usuarioNombre = document.getElementById('usuario-nombre');
+  const comentarioTexto = document.getElementById('comentario-texto');
 
-document.addEventListener("DOMContentLoaded", () => {
+    // Definir la URL base del backend
   console.log("Frontend cargado con AOS y servidor listo.");
 
   // ====== MATRIX BACKGROUND ======
@@ -76,7 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.disabled = true;
 
       try {
-        const res = await fetch("/enviar-correo", {
+        // ====== FORMULARIO DE CONTACTO ======
+        const res = await fetch(`${API_URL}/enviar-correo`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nombre, correo, mensaje })
@@ -99,24 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Elementos del DOM
-  const btnLogin = document.getElementById('btn-login-google');
-  const btnLogout = document.getElementById('btn-logout');
-  const btnEnviarComentario = document.getElementById('btn-enviar-comentario');
-  const comentariosContainer = document.getElementById('comentarios-container');
-  const usuarioInfo = document.getElementById('usuario-info');
-  const usuarioAvatar = document.getElementById('usuario-avatar');
-  const usuarioNombre = document.getElementById('usuario-nombre');
-  const comentarioTexto = document.getElementById('comentario-texto');
 
   // Verificar estado de autenticación
   async function verificarAutenticacion() {
     try {
-      const response = await fetch('/api/auth/current');
+      // ====== VERIFICAR AUTENTICACIÓN ======
+      const response = await fetch(`${API_URL}/api/auth/current`);
       if (!response.ok) throw new Error('No autenticado');
       
       const usuario = await response.json();
@@ -141,37 +141,65 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Cargar comentarios
-  async function cargarComentarios() {
-    try {
-      const response = await fetch('/api/comentarios');
-      const comentarios = await response.json();
+async function cargarComentarios() {
+  try {
+    const response = await fetch(`${API_URL}/api/comentarios`);
+    const comentarios = await response.json();
+
+    comentariosContainer.innerHTML = ""; // limpiar primero
+
+    comentarios.forEach(comentario => {
+      const card = document.createElement("div");
+      card.className = "card mb-3";
+
+      const cardBody = document.createElement("div");
+      cardBody.className = "card-body";
+
+      const header = document.createElement("div");
+      header.className = "d-flex align-items-center mb-2";
+
       
-      comentariosContainer.innerHTML = comentarios.map(comentario => `
-        <div class="card mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-center mb-2">
-              <img src="${comentario.usuario.avatar || 'https://i.imgur.com/8Km9tLL.jpg'}" 
-                   alt="${comentario.usuario.nombre}" 
-                   class="rounded-circle me-2" 
-                   width="40">
-              <div>
-                <h6 class="mb-0">${comentario.usuario.nombre}</h6>
-                <small class="text-muted">${new Date(comentario.fecha).toLocaleString()}</small>
-              </div>
-            </div>
-            <p class="card-text">${comentario.contenido}</p>
-          </div>
-        </div>
-      `).join('');
-    } catch (error) {
-      console.error('Error al cargar comentarios:', error);
-      comentariosContainer.innerHTML = `
-        <div class="alert alert-warning">
-          Error al cargar los comentarios. Por favor recarga la página.
-        </div>
-      `;
-    }
+
+      const img = document.createElement("img");
+      img.src = comentario.usuario.avatar || "https://i.imgur.com/8Km9tLL.jpg";
+      img.alt = comentario.usuario.nombre;
+      img.className = "rounded-circle me-2";
+      img.width = 40;
+
+      const info = document.createElement("div");
+      const nombre = document.createElement("h6");
+      nombre.className = "mb-0";
+      nombre.textContent = comentario.usuario.nombre; 
+
+      const fecha = document.createElement("small");
+      fecha.className = "text-muted";
+      fecha.textContent = new Date(comentario.fecha).toLocaleString();
+
+      info.appendChild(nombre);
+      info.appendChild(fecha);
+
+      header.appendChild(img);
+      header.appendChild(info);
+
+      const texto = document.createElement("p");
+      texto.className = "card-text";
+      texto.textContent = comentario.contenido; 
+
+      cardBody.appendChild(header);
+      cardBody.appendChild(texto);
+      card.appendChild(cardBody);
+      comentariosContainer.appendChild(card);
+    });
+  } catch (error) {
+    console.error("Error al cargar comentarios:", error);
+    const alerta = document.createElement("div");
+    alerta.className = "alert alert-warning";
+    alerta.textContent = "Error al cargar los comentarios. Por favor recarga la página.";
+
+    comentariosContainer.appendChild(alerta);
   }
+}
+
 
   // Manejar envío de comentarios
   async function enviarComentario() {
@@ -182,10 +210,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     try {
-      const response = await fetch('/api/comentarios', {
-        method: 'POST',
+      // ====== ENVIAR COMENTARIO ======
+      const response = await fetch(`${API_URL}/api/comentarios`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ contenido })
       });
@@ -218,11 +247,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   btnLogout.addEventListener('click', async () => {
+    // ====== CERRAR SESIÓN ======
     try {
-      await fetch('/api/auth/logout');
+      await fetch(`${API_URL}/api/auth/logout`);
       window.location.reload();
     } catch (error) {
-      console.error('Error al cerrar sesión:', error);
+      console.error("Error al cerrar sesión:", error);
     }
   });
 
