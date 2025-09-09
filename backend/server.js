@@ -20,11 +20,42 @@ app.use(helmet({
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com"],
-      styleSrc: ["'self'", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://fonts.googleapis.com"],
-      imgSrc: ["'self'", "data:", "https://cdn.jsdelivr.net", "https://cdnjs.cloudflare.com", "https://d33wubrfki0l68.cloudfront.net", "https://lh3.googleusercontent.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
-      connectSrc: ["'self'", "https://accounts.google.com", "https://www.googleapis.com"],
+      scriptSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+        "https://www.google.com/recaptcha/",
+        "https://www.gstatic.com/recaptcha/"
+      ],
+      styleSrc: [
+        "'self'",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+        "https://fonts.googleapis.com"
+      ],
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://cdn.jsdelivr.net",
+        "https://cdnjs.cloudflare.com",
+        "https://d33wubrfki0l68.cloudfront.net",
+        "https://lh3.googleusercontent.com"
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://cdnjs.cloudflare.com"
+      ],
+      frameSrc: [
+        "'self'",
+        "https://www.google.com/recaptcha/",
+        "https://recaptcha.google.com/"
+      ],
+      connectSrc: [
+        "'self'",
+        "https://accounts.google.com",
+        "https://www.googleapis.com","https://www.google.com", "https://www.gstatic.com" 
+      ],
     }
   }
 }));

@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- desarrollador: Daniel Enrique Perdomo Carvajal -->
 <html lang="es">
 <head>
   <meta charset="UTF-8">
@@ -390,26 +391,32 @@
   </div>
 </section>
 
-<!-- Agrega esto en tu index.html, preferiblemente antes de la sección de contacto -->
+
 <section id="comentarios" class="container py-5" data-aos="fade-up">
   <div class="card shadow-lg rounded-4 p-4">
     <h2 class="text-center mb-4"><i class="fas fa-comments"></i> Comentarios</h2>
     
     <!-- Contenedor de comentarios -->
     <div id="comentarios-container" class="mb-4">
-      <!-- Los comentarios se cargarán aquí dinámicamente -->
+      
     </div>
     
     <!-- Formulario de comentarios -->
-    <div id="formulario-comentario" class="mb-4">
-      <div class="form-floating mb-3">
-        <textarea class="form-control" id="comentario-texto" placeholder="Escribe tu comentario..."></textarea>
-        <label for="comentario-texto">Tu comentario</label>
+
+      <div id="formulario-comentario" class="mb-4">
+        <div class="form-floating mb-3">
+          <textarea class="form-control" id="comentario-texto" placeholder="Escribe tu comentario..."></textarea>
+          <label for="comentario-texto">Tu comentario</label>
+        </div>
+
+   <!-- Captcha -->
+        <div class="g-recaptcha mb-3"
+            data-sitekey="6Ld7oL0rAAAAALwdJ06-4m7BodInxzPrxRb5YJ4O"></div>
+
+        <button id="btn-enviar-comentario" class="btn btn-warning w-100">
+          <i class="fas fa-paper-plane"></i> Enviar comentario
+        </button>
       </div>
-      <button id="btn-enviar-comentario" class="btn btn-warning w-100">
-        <i class="fas fa-paper-plane"></i> Enviar comentario
-      </button>
-    </div>
     
     <!-- Sección de autenticación -->
     <div id="auth-section" class="text-center">
@@ -476,6 +483,8 @@
       </div>
     </div>
   </div>
+  
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
   <script src="/js/app.js"></script>

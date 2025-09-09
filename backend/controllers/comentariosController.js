@@ -1,94 +1,176 @@
-const Comentario = require('../models/Comentario');
+
+
+const { verificarCaptcha } = require("../utils/captcha");
+const Comentario = require("../models/Comentario");
 
 // Palabras prohibidas normalizadas (sin tildes, sin espacios especiales)
+// Lista optimizada de palabras prohibidas (sin duplicados y organizada)
 const palabrasProhibidas = [
-  "mk","marica","estupido","idiota","imbecil","tonto","maldito","hdp",
-  "puto","gonorrea","mierda","pendejo","cabron","culero","verga",
-  "chinga","chingar","joder","jodido","hijodeputa","pinche","pinga",
-  "coño","carajo","zorra","puta","maricon","pato","panocha","culia",
-  "culiado","conchadetumadre","mecagoentumadre","mecagoendios",
-  "mecagoentodo","chupapijas","chupapollas","pajero","pajilla",
-  "vergas","chingada","chingadas","chingado","chingados",
-  "malparido","malparidos","malditos","malditas","triplehijueputa",
-  "triplehijueputas","hijueputa","hijueputas","hijueputo","hijueputos",
-  "hijaputa","hijaputas","hijoputa","hijoputas","putas",
-  "putos","pendejos","pendejas","pendeja","gilipollas","gilipollas",
-  "gilipolla","gilipollo","concha","conchas","conchita","conchito",
-  "cabrones","cabronas","cabrona","cabron","culeros","culeras",
-"culera","culero","vergas","verga","vergon","vergones", "maricon","pene","penes","pane","panochas","panocha","polla","pollas","joder","jodidos",
-  "jodida","jodidas","jodido","jodidos","coños","coño","carajos",
-  "carajo","zorras","zorro","zorros","zorra","putas","puto","putos","perra","perras","perro","perros","maricones","maricas","marica","mariconas",
-  "maricona","patas","pato","patos","patas","pata","culiá","culiás",
-  "culiáo","culiáos","culiaos","culias","culia","culiado","culiados","nob","nob","nobs","nobs","nobes","nobe","troll","trolls","trol","troles",
-  "trola","trolas","trolazo","trolazos","trolaza","trolazas","trolazo",
-  "trolazos","mierda","mierdas","mierdero","mierderos","mierdera","verga","malo","peor","malos","peores","malas","peores","maldita","malditas","no sabe", "no saben","no sabias","no sabia","no supo","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","no supieron","hp","mal","pesimo","peor","horror","mediocre","morrongo","infiel","desleal","poca","bajo",
-  "mal","pesimo","peor","horror","mediocre","morrongo","infiel","desleal","poca","bajo","cero","0","nulo","nula","nulos","nulas","basura","basuras","basurero","basureros","basurera","basureras",
-  "lame","culo","lamer","lamida","lamidas","lamido","lamidos","lameculos",
-  "lameculo","lameculos","lameculi","lameculis","lameculia","lameculias", "lameculiao","lameculiaos","lameculiados","lameculiadas",
-  "lameculiado","lameculiada","lameculiados","lameculiadas","mamón",
-  "mamona","mamonas","mamonazo","mamonazos","mamonazo","mamonazos",   "fracasado", "inutil", "retrasado", "lento", "bastardo", "grosero", "asqueroso", 
-  "desgraciado", "malnacido", "cenutrio", "zoquete", "palurdo", "gañan", "patan", 
-  "chupoptero", "mendrugo", "pagafantas", "carapapa", "caraculo", "carajote", "mequetrefe", 
-  "piltrafa", "escoria", "chusma", "canalla", "sinverguenza", "granuja", "rufián", 
-  "indeseable", "energumeno", "macarra", "golfa", "furcia", "fulana", "ramera", 
-  "prostituta", "soplapollas", "mameluco", "majadero", "tarado", "morrobel", "garrulo", 
-  "paleto", "cateto", "ignorante", "analfabeto", "inculto", "cateto", "prepotente", 
-  "creido", "pagado", "chupamedias", "lameculos", "arrastrado", "vendido", "traga", 
-  "soplagaitas", "mangurrian", "pellejo", "vejestorio", "mocoso", "chiquilicuatre", 
-  "meapilas", " santurron", "mojigato", "hipocrita", "carrozas", "obsoleto", "pringao", 
-  "gilipuertas", "mastuerzo", "zopenco", "abollao", "chupado", "esqueleto", "gorda", 
-  "gordo", "feto", "enano", "enanito", "giganton", "memo", "bobalicon", "lelo", "pasma", 
-  "chivato", "sapo", "soplon", "bufon", "payaso", "policia", "guardia", "facha", "rojo", 
-  "fascista", "comunista", "capitalista", "esclavo", "señorito", "niñato", "niñata", 
-  "mariquita", "flojo", "vago", "holgazan", "gandul", "parasito", "chupasangre", 
-  "aprovechado", "usurero", "tacaño", "roñoso", "sucio", "cochino", "apestoso", "apestosa", 
-  "apestados", "apestadas", "apestado", "apestada", "piojoso", "sarnoso", "grasiento", 
-  "mugriento", "cerdo", "cerda", "marrano", "puerca", "bestia", "animal", "salvaje", 
-  "bruto", "tosco", "patoso", "torpe", "zafio", "ordinario", "cutre","cacorro","cacorros","cacorra","cacorras","cagada","cagadas","cagado","cagados","cagarro","cagarros","cagarrro","cagarrros","cagarrro","cagarrros","cagarrada","cagarradas","cagarrado","cagarrados","cagarrada","cagarradas","cagaste","cagaron","cagamos","cagais","cagoen","cagoenla","cagoenlas","cagoenlo","cagoenlos","cagoenle","cagoenles","cagoentodo","cagoentoda","cagoentodas","cagoentodo","cagoentodos",
-  "jodete","jodetela","jodetelas","jodetelo","jodetelos","jodetale","jodetales",
-  "jodetoda","jodetodas","jodetodo","jodetodos",
-  "hostia","hostias","hostion","hostiones",
-  "ostia","ostias","ostion","ostiones","violador","violadores","violadora","violadoras",
-  "asesino","asesinos","asesina","asesinas","ladrón","ladrones","ladrona","ladronas",
-  "ratero","rateros","ratera","rateras","cabrón","cabrones","cabrona","cabronas", "mariunao","drogadicto","drogadictos","drogadicta","drogadictas","drogata","drogatas","drogon","drogones","drogona","drogonas",
-  "borracho","borrachos","borracha","borrachas","alcoholico","alcoholicos","alcoholica",
-  "alcoholicas","alcohólico","alcohólicos","alcohólica","alcohólicas","suicida","suicidas","soplon","soplones","soplona","soplonas","chivato","chivatos","chivata","chivatas",
-  "cabrón","cabrones","cabrona","cabronas","malparido","malparidos","malparida","malparidas",
-  "miserable","miserables","despreciable","despreciables","desgraciado","desgraciados","periquero","periqueros","periquera","periqueras","cagón","cagones","cagona","cagonas",
-  "cagaste","cagaron","cagamos","cagais","cagoen","cagoenla","cagoenlas","cagoenlo","cagoenlos","cagoenle","cagoenles","cagoentodo","cagoentoda","cagoentodas","cagoentodo","cagoentodos",
-  "pedorro","pedorros","pedorra","pedorras","marihuana","marihuanas","marihuanero","marihuaneros","marihuanera","marihuaneras",
-  "coca","cocas","cocaina","cocainas","cocainomano","cocainomanos","cocainomana","cocainomanas",
-  "heroina","heroinas","heroinomano","heroinomanos","heroinomana","heroinomanas", "puto","puta","putas","putos","pendejo","pendeja","pendejas","pendejos","gilipollas","gilipolla","gilipollo","gilipollos","gilipollas","gilipolla","gilipollo","gilipollos",
-  "concha","conchas","conchita","conchito","conchitas","conchitos","conchudo","conchudos","conchuda","conchudas",
-  "cabronazo","cabronazos","cabronaza","cabronazas","culerazo","culerazos","culeraza","culerazas",
-  "vergonazo","vergonazos","vergonaza","vergonazas","zoplon","soplador","sopladora","sopladores","sopladoras","coca","homosexual","homosexualidad","lesbiana","lesbiano","lesbianas","gay","chupador","chupamelas","chupamela","chupamelas","chupamelo","chupamelos","chupamele","chupameles","chupamela","chupamelas","chupamelo","chupamelos","chupamele","chupameles","bolas","mariuanero","mariuanera","mariuaneros","mariuaneras","marihuana","marihuanas","mariguana","mariguanas","mariguano","mariguanos","mariconazo","mariconazos","mariconaza","mariconazas", "chiquito","chiquita","chiquitos","chiquitas","enano","enana","enanos","enanas","enanito","enanita","enanitos","enanitas",
-  "imbecil","imbeciles","imbecila","imbecilas","idiota","idiotas","idiota","idiotas",
-  "estupido","estupidos","estupida","estupidas","tonto","tontos","tonta","tontas","cagado"
+  // Insultos y groserías básicas
+  "arrecostes", "arrecostés", "asesina", "asesinas", "asesino", "asesinos", "asquerosa", "asqueroso", 
+  "bastarda", "bastardo", "bestia", "bestias", "bolas", "bruta", "bruto", "bufon", "bufones", 
+  "cabrona", "cabronas", "cabronazo", "cabronazos", "cabrón", "cabrones", "cabron", "cacorra", 
+  "cacorras", "cacorro", "cacorros", "cagada", "cagadas", "cagado", "cagados", "cagais", "cagamos", 
+  "cagando", "cagan", "cagara", "cagar", "cagaron", "cagarro", "cagarros", "cagas", "cagaste", 
+  "cagoen", "cagoenla", "cagoenlas", "cagoenle", "cagoenles", "cagoenlo", "cagoenlos", "cagoentoda", 
+  "cagoentodas", "cagoentodo", "cagoentodos", "canalla", "canallas", "caraculo", "carajo", "carajos", 
+  "carapapa", "carajote", "cenutrio", "cerda", "cerdo", "chichona", "chichonas", "chinga", "chingada", 
+  "chingadas", "chingado", "chingados", "chingar", "chinguen", "chupadora", "chupadoras", "chupador", 
+  "chupadores", "chupamedias", "chupamela", "chupamelas", "chupamelo", "chupamelos", "chupapijas", 
+  "chupapollas", "chupasangre", "chupoptero", "chusma", "cochina", "cochino", "cojida", "cojido", 
+  "comemierda", "comunista", "comunistas", "concha", "conchadetumadre", "conchas", "conchita", 
+  "conchito", "conchudas", "conchudo", "conchudos", "coño", "coños", "creida", "creido", "culera", 
+  "culeras", "culero", "culeros", "culerazo", "culerazos", "culiao", "culiaos", "culiá", "culiado", 
+  "culiados", "culiáo", "culiáos", "culia", "culias", "culiás", "culo", "culos", "culito", "culitos", 
+  "desgraciada", "desgraciado", "desleal", "drogadicta", "drogadictas", "drogadicto", "drogadictos", 
+  "drogata", "drogatas", "drogon", "drogona", "drogonas", "drogones", "energumeno", "esclava", 
+  "esclavo", "escoria", "estupida", "estupidas", "estupido", "estupidos", "facha", "fascista", 
+  "fascistas", "feto", "fulana", "furcia", "gañan", "gilipolla", "gilipollas", "gilipollo", 
+  "gilipollos", "gilipuertas", "gonorrea", "gorda", "gordo", "granuja", "granujas", "grosera", 
+  "grosero", "hdp", "heroina", "heroinas", "heroinomana", "heroinomanas", "heroinomano", "heroinomanos", 
+  "hijaputa", "hijaputas", "hijodeputa", "hijoputa", "hijoputas", "hijueputa", "hijueputas", 
+  "hijueputo", "hijueputos", "holgazan", "hostia", "hostias", "hostion", "hostiones", "idiota", 
+  "idiotas", "imbecil", "imbecila", "imbecilas", "imbeciles", "inculto", "indeseable", "infiel", 
+  "jodida", "jodidas", "jodido", "jodidos", "joder", "jodete", "jodetela", "jodetelas", "jodetelo", 
+  "jodetelos", "jodetoda", "jodetodas", "jodetodo", "jodetodos", "ladrona", "ladronas", "ladrón", 
+  "ladrones", "lameculo", "lameculos", "lameculi", "lameculia", "lameculiao", "lameculiaos", 
+  "lameculias", "lameculiado", "lameculiados", "lameculiada", "lameculiadas", "lameculis", "lamer", 
+  "lamida", "lamidas", "lamido", "lamidos", "lesbiana", "lesbianas", "lesbiano", "macarra", "mala", 
+  "malas", "maldita", "malditas", "maldito", "malditos", "malnacido", "malo", "malos", "malparida", 
+  "malparidas", "malparido", "malparidos", "mamahueva", "mamahuevas", "mamahuevo", "mamahuevos", 
+  "mamapolla", "mamapollas", "mamon", "mamona", "mamonas", "mamonazo", "mamonazos", "marihuana", 
+  "marihuanas", "marihuanera", "marihuaneras", "marihuanero", "marihuaneros", "marica", "maricas", 
+  "maricon", "maricona", "mariconas", "mariconazo", "mariconazos", "maricones", "maricon", "maricón",
+  "mariquita", "mastuerzo", "mecagoendios", "mecagoentodo", "mecagoentumadre", "mequetrefe", "mierda", 
+  "mierdas", "mierdera", "mierdero", "mierderos", "mk", "mocosa", "mocoso", "morrongo", "mugrienta", 
+  "mugriento", "nob", "nobe", "nobes", "nobs", "nula", "nulas", "nulo", "nulos", "ostia", "ostias", 
+  "ostion", "ostiones", "pagafantas", "pajera", "pajero", "pajilla", "panocha", "panochas", "pans", 
+  "pata", "patas", "pato", "patos", "pendeja", "pendejas", "pendejo", "pendejos", "perra", "perras", 
+  "perro", "perros", "pesima", "pesimo", "piltrafa", "pinche", "pinga", "piojosa", "piojoso", "poca", 
+  "polla", "pollas", "potorro", "prepotente", "prostituta", "prostitutas", "puta", "putas", "puto", 
+  "putos", "ramera", "ratera", "rateras", "ratero", "rateros", "retrasada", "retrasado", "rojo", 
+  "rufian", "sarnosa", "sarnoso", "soplapollas", "soplon", "soplona", "soplones", "soplonas", "suicida", 
+  "suicidas", "tarada", "tarado", "tonta", "tontas", "tonto", "tontos", "trol", "trola", "trolas", 
+  "trole", "troles", "troll", "trolls", "trolazo", "trolazos", "verga", "vergas", "vergon", "vergones", 
+  "vergonza", "vergonzas", "vergonazo", "vergonazos", "violadora", "violadoras", "violador", "violadores", 
+  "zopenco", "zorras", "zorro", "zorros", "zoquete",
+  
+  // Términos relacionados con drogas
+  "bazuco", "bazuquera", "bazuqueras", "bazuquero", "bazuqueros", "coca", "cocaina", "cocainas", 
+  "cocainomana", "cocainomanas", "cocainomano", "cocainomanos", "cocas", "mariguana", "mariguanas", 
+  "mariguano", "mariguanos", "mariuanera", "mariuaneras", "mariuanero", "mariuaneros", "opio", "paco", 
+  "paca", "pacos", "pac", "pepas", "perica", "pericas", "perico", "pericos", "peta", "petas", "petardo", 
+  "petardos", "tusi", "tussi", "tuzi",
+  
+  // Términos de orientación sexual (usados de manera despectiva)
+  "gay", "homosexual", "homosexualidad", "lesbiana", "lesbiano",
+  
+  // Términos relacionados con alcohol
+  "alcoholica", "alcoholicas", "alcoholico", "alcoholicos", "alcohólica", "alcohólicas", "alcohólico", 
+  "alcohólicos", "borracha", "borrachas", "borracho", "borrachos",
+  
+  // Palabras de discriminación por capacidad
+  "retrasada", "retrasado", "retrasados", "retrasadas",
+  
+  // Términos de discriminación por apariencia
+  "enana", "enanas", "enano", "enanos", "enanita", "enanitas", "enanito", "enanos", "fea", "feo", "gorda", 
+  "gordo", "gordas", "gordos",
+  
+  // Términos de discriminación por edad
+  "vejestorio", "vejestorios",
+  
+  // Términos de discriminación por condición social
+  "pagado", "pagada", "pringao", "pringaos",
+  
+  // Términos de discriminación por nacionalidad/origen
+  "paleto", "paletos", "cateto", "catetos",
+  
+  // Expresiones despectivas varias
+  "abollao", "abollados", "alcoholico", "alcoholicos", "analfabeto", "analfabetos", "animal", "animales", 
+  "apestada", "apestadas", "apestado", "apestados", "apestosa", "apestoso", "arrastrada", "arrastradas", 
+  "arrastrado", "arrastrados", "baj", "bajo", "basura", "basuras", "basurera", "basureras", "basurero", 
+  "basureros", "bobalicon", "bobalicona", "capitalista", "capitalistas", "carrozas", "cero", "chiquita", 
+  "chiquito", "chiquitas", "chiquitos", "chivata", "chivatas", "chivato", "chivatos", "chupada", "chupado", 
+  "colgada", "colgadas", "colgado", "colgados", "colgao", "colgaos", "culion", "cutre", "despreciable", 
+  "despreciables", "esqueleto", "esqueletos", "fascista", "fascistas", "feto", "fetos", "fumador", 
+  "fumadora", "fumadoras", "fumadores", "fumeta", "fumetas", "gandul", "gandules", "garrula", "garrulo", 
+  "giganton", "golfa", "golfas", "grasienta", "grasiento", "guardia", "guardias", "hipocrita", "hipocritas", 
+  "holgazan", "holgazana", "holgazanes", "horto", "ignorante", "ignorantes", "inculta", "incultas", "inculto", 
+  "incultos", "infiel", "infieles", "majadera", "majadero", "majaderos", "mameluca", "mameluco", "mamelucos", 
+  "mangurrian", "mangurrianes", "mariquita", "mariquitas", "mastuerzo", "mastuerzos", "meapilas", "mediocre", 
+  "mediocres", "memo", "memos", "mendrugo", "mendrugos", "miserable", "miserables", "mojigata", "mojigato", 
+  "morronga", "morrongo", "morrongos", "mugrienta", "mugrientas", "mugriento", "mugrientos", "ordinaria", 
+  "ordinario", "paganini", "paganinis", "palurda", "palurdo", "palurdos", "pantan", "panta", "parasita", 
+  "parasitas", "parasito", "parasitos", "pasma", "pasmados", "patan", "patanes", "patan", "patana", "pellejo", 
+  "pellejos", "periquera", "periqueras", "periquero", "periqueros", "pesima", "pesimo", "piltrafa", "piltrafas", 
+  "piojosa", "piojosas", "piojoso", "piojosos", "poca", "pocas", "poco", "policia", "policias", "potorro", 
+  "potorros", "prepotente", "prepotentes", "pringada", "pringado", "pringados", "puerca", "puercas", "puercos", 
+  "rameras", "roja", "rojo", "rojos", "roñosa", "roñoso", "ruin", "ruines", "santurrona", "santurronas", 
+  "santurrón", "santurrones", "sap", "sapo", "sapos", "sinverguenza", "sinverguenzas", "sobornada", "sobornado", 
+  "soplagaitas", "soplona", "soplonas", "soplones", "sucia", "sucias", "sucio", "sucios", "tacaña", "tacañas", 
+  "tacaño", "tacaños", "tarada", "taradas", "tarado", "tarados", "tosca", "tosco", "toscas", "traidora", 
+  "traidoras", "traidor", "traidores", "trolaza", "trolazas", "usurera", "usureras", "usurero", "usureros", 
+  "vaga", "vagas", "vago", "vagos", "vendida", "vendidas", "vendido", "vendidos", "zafia", "zafio", "zafios", 
+  "zoquete", "zoquetes"
 ];
 
-// Normaliza: minúsculas, sin acentos, sin símbolos
+
+// Mapa para detectar leetspeak
+const leetMap = {
+  "0": "o",
+  "1": "i",
+  "3": "e",
+  "4": "a",
+  "5": "s",
+  "7": "t",
+  "8": "b",
+  "@": "a",
+  "$": "s",
+  "+": "t"
+};
+
+function desleet(texto) {
+  return texto.split("").map(c => leetMap[c] || c).join("");
+}
+
+// Normaliza: minúsculas, sin acentos, convierte leet y deja solo letras/números
 function normalizarTexto(texto) {
-  return texto
-    .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/[^a-z0-9áéíóúüñ]/g, "");
+  return desleet(
+    texto
+      .toLowerCase()
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // quita acentos
+  ).replace(/[^a-z0-9ñ]/g, ""); // quita símbolos
 }
 
-// Detecta si contiene ofensas
-function contieneOfensas(texto) {
+// Revisa si contiene palabras prohibidas
+function contieneOfensas(texto, listaProhibidas) {
   const limpio = normalizarTexto(texto);
-  return palabrasProhibidas.some(p => limpio.includes(normalizarTexto(p)));
+  return listaProhibidas.some(p => limpio.includes(normalizarTexto(p)));
 }
 
-// Sanitizar básico para evitar XSS
 function contieneXSS(texto) {
-  const xssRegex = /<script|<\/script|onerror=|onload=|javascript:/i;
+  const xssRegex = /<script|<\/script|onerror=|onload=|javascript:|data:text\/html/i;
   return xssRegex.test(texto);
 }
 
+// --- Función central para sanitizar ---
+function sanitizeComentario(texto, listaProhibidas) {
+  if (contieneXSS(texto)) {
+    return { valido: false, motivo: "XSS detectado" };
+  }
+
+  if (contieneOfensas(texto, listaProhibidas)) {
+    return { valido: false, motivo: "Lenguaje ofensivo detectado" };
+  }
+
+  // si pasa filtros, devuelve normalizado
+  return { valido: true, limpio: normalizarTexto(texto) };
+}
+
+// --- Controlador crearComentario ---
 exports.crearComentario = async (req, res) => {
   try {
-    const { contenido } = req.body;
+    const { contenido, captcha } = req.body;
 
     if (!req.user) {
       return res.status(401).json({
@@ -101,17 +183,18 @@ exports.crearComentario = async (req, res) => {
       return res.status(400).json({ error: "El contenido es obligatorio" });
     }
 
-    // Bloquear si contiene malas palabras
-    if (contieneOfensas(contenido)) {
-      return res.status(400).json({
-        error: "🚫 Tu comentario contiene lenguaje inapropiado y no será publicado."
-      });
+    // 🔐 Verificar Captcha antes de todo
+    const captchaValido = await verificarCaptcha(captcha);
+    if (!captchaValido) {
+      return res.status(400).json({ error: "⚠️ Verificación reCAPTCHA fallida." });
     }
 
-    // Bloquear si contiene XSS
-    if (contieneXSS(contenido)) {
+    // Validar y sanitizar
+    const resultado = sanitizeComentario(contenido, palabrasProhibidas);
+
+    if (!resultado.valido) {
       return res.status(400).json({
-        error: "🚫 Tu comentario contiene código no permitido."
+        error: `🚫 Tu comentario no fue aceptado: ${resultado.motivo}`
       });
     }
 
@@ -122,7 +205,7 @@ exports.crearComentario = async (req, res) => {
         correo: req.user.correo,
         avatar: req.user.avatar
       },
-      contenido,
+      contenido, // se guarda original, pero ya validado
       aprobado: true,
       fecha: new Date()
     });
@@ -139,6 +222,7 @@ exports.crearComentario = async (req, res) => {
   }
 };
 
+// --- Controlador obtenerComentarios ---
 exports.obtenerComentarios = async (req, res) => {
   try {
     const comentarios = await Comentario.find({ aprobado: true })

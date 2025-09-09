@@ -1,4 +1,5 @@
 const API_URL = "https://localhost:3000";
+
 // Inicializa animaciones AOS
 AOS.init();
 document.addEventListener('DOMContentLoaded', function() {
@@ -202,44 +203,53 @@ async function cargarComentarios() {
 
 
   // Manejar envío de comentarios
-  async function enviarComentario() {
-    const contenido = comentarioTexto.value.trim();
-    if (!contenido) {
-      alert('Por favor escribe un comentario');
+// ====== MANEJAR ENVÍO DE COMENTARIOS ======
+async function enviarComentario() {
+  const contenido = comentarioTexto.value.trim();
+
+  if (!contenido) {
+    alert("⚠️ Por favor escribe un comentario");
+    return;
+  }
+
+  // Obtener el token del captcha
+  const captchaToken = grecaptcha.getResponse();
+  if (!captchaToken) {
+    alert("⚠️ Por favor confirma que no eres un robot");
+    return;
+  }
+
+  try {
+    const response = await fetch(`${API_URL}/api/comentarios`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ contenido, captcha: captchaToken })
+    });
+
+    const resultado = await response.json();
+
+    if (response.status === 401) {
+      if (confirm("Debes iniciar sesión para comentar. ¿Deseas iniciar sesión ahora?")) {
+        window.location.href = "/api/auth/google";
+      }
       return;
     }
 
-    try {
-      // ====== ENVIAR COMENTARIO ======
-      const response = await fetch(`${API_URL}/api/comentarios`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ contenido })
-      });
-
-      const resultado = await response.json();
-
-      if (response.status === 401) {
-        if (confirm('Debes iniciar sesión para comentar. ¿Deseas iniciar sesión ahora?')) {
-          window.location.href = '/api/auth/google';
-        }
-        return;
-      }
-
-      if (!response.ok) {
-        throw new Error(resultado.error || 'Error al enviar comentario');
-      }
-
-      alert(resultado.mensaje);
-      comentarioTexto.value = '';
-      await cargarComentarios();
-    } catch (error) {
-      console.error('Error:', error);
-      alert(error.message || 'Ocurrió un error al enviar el comentario');
+    if (!response.ok) {
+      grecaptcha.reset();
+      throw new Error(resultado.error || "Error al enviar comentario");
     }
+
+    alert(resultado.mensaje);
+    comentarioTexto.value = "";
+    grecaptcha.reset(); // 🔑 reiniciar captcha después de enviar
+    await cargarComentarios();
+  } catch (error) {
+    console.error("❌ Error:", error);
+    alert(error.message || "Ocurrió un error al enviar el comentario");
   }
+}
+
 
   // Event Listeners
   btnLogin.addEventListener('click', () => {
