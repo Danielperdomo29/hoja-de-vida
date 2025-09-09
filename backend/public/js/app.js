@@ -1,5 +1,6 @@
 const API_URL = "https://localhost:3000";
 
+
 // Inicializa animaciones AOS
 AOS.init();
 document.addEventListener('DOMContentLoaded', function() {
@@ -236,18 +237,17 @@ async function enviarComentario() {
     }
 
     if (!response.ok) {
-      grecaptcha.reset();
       throw new Error(resultado.error || "Error al enviar comentario");
     }
 
     alert(resultado.mensaje);
     comentarioTexto.value = "";
-    grecaptcha.reset(); // 🔑 reiniciar captcha después de enviar
     await cargarComentarios();
   } catch (error) {
     console.error("❌ Error:", error);
     alert(error.message || "Ocurrió un error al enviar el comentario");
   }
+  grecaptcha.reset(); 
 }
 
 

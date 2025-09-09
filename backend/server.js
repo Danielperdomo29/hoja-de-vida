@@ -54,11 +54,15 @@ app.use(helmet({
       connectSrc: [
         "'self'",
         "https://accounts.google.com",
-        "https://www.googleapis.com","https://www.google.com", "https://www.gstatic.com" 
+        "https://www.googleapis.com",
+        "https://www.google.com",
+        "https://www.gstatic.com",
+        "https://cdn.jsdelivr.net"
       ],
     }
   }
 }));
+
 
 // === Rate limit global para /api ===
 const apiLimiter = rateLimit({
