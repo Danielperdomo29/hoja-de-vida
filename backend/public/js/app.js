@@ -3,7 +3,7 @@ const API_URL = "https://localhost:3000";
 
 // Inicializa animaciones AOS
 AOS.init();
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   // Elementos del DOM
   const btnLogin = document.getElementById('btn-login-google');
   const btnLogout = document.getElementById('btn-logout');
@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setInterval(drawMatrix, 33);
     window.addEventListener("resize", resizeCanvas);
   }
+
 
   // ====== FORMULARIO DE CONTACTO ======
   const form = document.getElementById("contactForm");
@@ -288,4 +289,134 @@ async function enviarComentario() {
       once: true
     });
   }
+
+  // ====== HERO SLIDER ======
+const slider = document.querySelector(".hero-slider");
+const titleEl = document.getElementById("hero-title");
+const subtitleEl = document.getElementById("hero-subtitle");
+const prevBtn = document.querySelector(".hero-control.prev");
+const nextBtn = document.querySelector(".hero-control.next");
+const indicatorsContainer = document.querySelector(".hero-indicators");
+let typingInterval = null; 
+let slides = [];
+let current = 0;
+let interval;
+
+async function initHero() {
+  try {
+    const res = await fetch("data/imagenes.json");
+    const data = await res.json();
+    slides = data.slides || [];
+
+    if (!slides.length) {
+      console.warn("No hay slides en imagenes.json");
+      return;
+    }
+
+    // Crear slides e indicadores
+    slides.forEach((slide, i) => {
+      const div = document.createElement("div");
+      div.className = "hero-slide";
+      div.style.backgroundImage = `url(${slide.image})`;
+      if (i === 0) div.classList.add("active");
+      slider.appendChild(div);
+
+      const dot = document.createElement("button");
+      if (i === 0) dot.classList.add("active");
+      dot.addEventListener("click", () => {
+        current = i;
+        showSlide(current);
+        resetAutoplay();
+      });
+      indicatorsContainer.appendChild(dot);
+    });
+
+    
+    showSlide(0);
+    startAutoplay();
+  } catch (err) {
+    console.error("Error cargando data/imagenes.json", err);
+  }
+}
+
+
+function showSlide(index) {
+  const slidesEl = document.querySelectorAll(".hero-slide");
+  const dots = indicatorsContainer.querySelectorAll("button");
+
+  slidesEl.forEach((s, i) => s.classList.toggle("active", i === index));
+  dots.forEach((d, i) => d.classList.toggle("active", i === index));
+
+  const { title, subtitle } = slides[index];
+
+  // detener cualquier escritura anterior
+  if (typingInterval) clearInterval(typingInterval);
+
+  // reset textos
+  titleEl.textContent = "";
+  subtitleEl.textContent = "";
+  subtitleEl.classList.remove("show");
+
+  // escribir título
+  typeWriter(title, () => {
+    subtitleEl.textContent = subtitle;
+    setTimeout(() => subtitleEl.classList.add("show"), 300);
+  });
+}
+
+function typeWriter(text, cb) {
+  let i = 0;
+  titleEl.textContent = "";
+
+  typingInterval = setInterval(() => {
+    if (i < text.length) {
+      titleEl.textContent += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(typingInterval);
+      typingInterval = null;
+      if (cb) cb();
+    }
+  }, 70);
+}
+
+function changeSlide(step) {
+  current = (current + step + slides.length) % slides.length;
+  showSlide(current);
+  resetAutoplay();
+}
+
+function startAutoplay() {
+  interval = setInterval(() => changeSlide(1), 6000);
+}
+function stopAutoplay() { clearInterval(interval); }
+function resetAutoplay() { stopAutoplay(); startAutoplay(); }
+
+prevBtn.addEventListener("click", () => changeSlide(-1));
+nextBtn.addEventListener("click", () => changeSlide(1));
+
+slider.addEventListener("mouseenter", stopAutoplay);
+slider.addEventListener("mouseleave", startAutoplay);
+slider.addEventListener("touchstart", stopAutoplay);
+slider.addEventListener("touchend", startAutoplay);
+
+// Inicializar hero
+initHero();
+
+function animateHeroContent() {
+  const elements = document.querySelectorAll(
+    "#nombre-completo, #descripcion-profesion, .hero-dinamico, .btn-animado"
+  );
+  elements.forEach((el, i) => {
+    setTimeout(() => el.classList.add("show"), i * 300); // animación en cascada
+  });
+}
+
+// Llamar cuando se inicializa el hero
+initHero().then(() => {
+  animateHeroContent();
 });
+
+});
+
+

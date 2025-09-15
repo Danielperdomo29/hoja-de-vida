@@ -1,0 +1,17 @@
+
+{
+  "slides": [
+    {
+      "image": "Imagenes/Mantenimientos.webp",
+      "title": "Desarrollo Fullstack",
+      "subtitle": "Creando aplicaciones modernas y seguras"
+    },
+    {
+      "image": "Imagenes/MantenimientosTableroElectronico.webp",
+      "title": "Ciberseguridad",
+      "subtitle": "Protegiendo la información con estrategias avanzadas"
+    }
+  ]
+}
+
+

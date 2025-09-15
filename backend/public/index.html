@@ -38,14 +38,32 @@
     </div>
   </nav>
 
-  <header class="bg-gradient text-white text-center py-1 mt-5" data-aos="fade-down">
-  <div class="d-flex flex-column flex-md-row align-items-center justify-content-center gap-4">
-    <div class=\"text-center text-md-start\">
-      <h1 class="display-5 text-white">Daniel Enrique Perdomo Carvajal</h1>
-      <p class="lead text-light">Ingeniero Electrónico | Fullstack Developer | Ciberseguridad | Automatización</p>
+<!-- HERO SLIDER -->
+<section id="hero">
+  <div class="hero-slider"></div>
+
+  <!-- Contenido dinámico -->
+  <div class="hero-content text-center text-white">
+    <h1 id="nombre-completo" class="fade-in">Daniel Enrique Perdomo Carvajal</h1>
+    <p class="lead fade-in" id="descripcion-profesion">
+      Ingeniero Electrónico | Fullstack Developer | Ciberseguridad | Automatización
+    </p>
+
+    <div class="hero-dinamico mt-4">
+      <h2 id="hero-title"></h2>
+      <p id="hero-subtitle"></p>
     </div>
+    <a href="#contacto" class="btn btn-warning btn-lg btn-animado">Contáctame</a>
   </div>
-  </header>
+
+  <!-- Controles -->
+  <button class="hero-control prev">&#10094;</button>
+  <button class="hero-control next">&#10095;</button>
+
+  <!-- Indicadores -->
+  <div class="hero-indicators"></div>
+</section>
+
 
   <section id="perfil" class="container py-5" data-aos="fade-right">
     <div class="card shadow-lg rounded-4 p-4">
@@ -474,7 +492,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-dark text-white">
         <div class="modal-header border-0">
-          <h5 class="modal-title" id="modalFotoLabel">Daniel Enrique Perdomo</h5>
+          <h5 class="modal-title" id="modalFotoLabel">Daniel Enrique Perdomo Carvajal - Ingeniero Electrónico</h5>
           <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
         </div>
         <div class="modal-body text-center">
