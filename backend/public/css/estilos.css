@@ -188,7 +188,11 @@ img {
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   z-index: 5; 
+  pointer-events: none;
   text-align: center;
+}
+.hero-content * {
+  pointer-events: auto; 
 }
 
 .hero-slider {
@@ -257,7 +261,7 @@ img {
   font-size: 2rem;
   padding: 10px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 10;
 }
 .hero-control.prev { left: 20px; }
 .hero-control.next { right: 20px; }
