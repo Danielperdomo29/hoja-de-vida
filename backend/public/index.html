@@ -13,11 +13,17 @@
   <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body>
+  <!-- LOADER -->
+<div id="loader">
+  <div class="loader-content">
+    <img src="Imagenes/Logo-empresa.png" alt="Logo Empresa" class="loader-logo">
+  </div>
+</div>
   <canvas id="matrix-canvas"></canvas>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container-fluid">
       <img 
-        src="/Imagenes/FotoDePerfil.png" 
+        src="Imagenes/FotoDePerfil.png" 
         alt="Daniel Perdomo" 
         class="rounded-circle border border-3 border-warning me-3 perfil-img" 
         data-bs-toggle="modal" 
@@ -32,6 +38,7 @@
           <li class="nav-item"><a class="nav-link" href="#perfil">Perfil</a></li>
           <li class="nav-item"><a class="nav-link" href="#experiencia">Experiencia</a></li>
           <li class="nav-item"><a class="nav-link" href="#habilidades">Habilidades</a></li>
+          <li class="nav-item"><a class="nav-link" href="#comentarios">Comentarios</a></li>
           <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
         </ul>
       </div>
@@ -65,14 +72,14 @@
 </section>
 
 
-  <section id="perfil" class="container py-5" data-aos="fade-right">
+  <section id="perfil" class="container py-5" data-aos="fade-up">
     <div class="card shadow-lg rounded-4 p-4">
       <h2><i class="fas fa-user"></i> Perfil Profesional</h2>
       <p>Ingeniero electrónico con experiencia en desarrollo fullstack (React, Node.js, Spring Boot), automatización industrial y ciberseguridad ofensiva. Me especializo en soluciones eficientes y escalables, con enfoque en rendimiento, trazabilidad y seguridad informática.</p>
     </div>
   </section>
 
-  <section id="experiencia" class="py-5" data-aos="fade-left">
+  <section id="experiencia" class="py-5" data-aos="fade-up">
     <div class="container">
       <h2 class="mb-4"><i class="fas fa-briefcase"></i> Experiencia</h2>
       <div class="row g-4">
@@ -453,7 +460,7 @@
 </section>
 
 
-  <section id="contacto" class="bg-dark text-white py-5" data-aos="fade-up-right">
+  <section id="contacto" class="bg-dark text-white py-5" data-aos="fade-up">
     <div class="container">
       <h2><i class="fas fa-envelope"></i> Contacto</h2>
       <ul class="list-unstyled">

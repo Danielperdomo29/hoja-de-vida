@@ -16,7 +16,10 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     // Definir la URL base del backend
   console.log("Frontend cargado con AOS y servidor listo.");
-
+  window.addEventListener("load", () => {
+  document.body.style.overflowY = "hidden";
+  });
+  
   // ====== MATRIX BACKGROUND ======
   const canvas = document.getElementById("matrix-canvas");
   if (canvas) {
@@ -403,6 +406,7 @@ slider.addEventListener("touchend", startAutoplay);
 // Inicializar hero
 initHero();
 
+
 function animateHeroContent() {
   const elements = document.querySelectorAll(
     "#nombre-completo, #descripcion-profesion, .hero-dinamico, .btn-animado"
@@ -412,11 +416,27 @@ function animateHeroContent() {
   });
 }
 
-// Llamar cuando se inicializa el hero
-initHero().then(() => {
-  animateHeroContent();
+// Ocultar el contenido hasta que cargue
+document.body.classList.add("loading");
+
+window.addEventListener("load", () => {
+  const loader = document.getElementById("loader");
+
+  // Fade out loader
+  loader.classList.add("fade-out");
+
+  // Después de la animación, mostrar el contenido
+  setTimeout(() => {
+    document.body.classList.remove("loading");
+    document.body.classList.add("loaded");
+
+    // Aquí disparas tus animaciones personalizadas
+    animateHeroContent(); 
+  }, 800); // mismo tiempo que el transition en CSS
 });
 
 });
+
+
 
 
